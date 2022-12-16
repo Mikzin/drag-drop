@@ -1,36 +1,39 @@
 <template>
   <div class="modal">
-    <img
-      src="../../images/rect1.png"
-      alt="inventory-item"
-      class="modal__image"
-    />
+    <img :src="image" alt="inventory-item" class="modal__image" />
     <div class="modal__info">
-      <h2 class="modal__title">Title of inventory item</h2>
+      <h2 class="modal__title">Title of inventory</h2>
       <p class="modal__text">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
         dolores cumque
       </p>
     </div>
-    <div>
+    <form class="modal__confirm">
       <input
         class="modal__input"
         placeholder="Введите количество"
         v-if="isDeleted"
+        @input="$emit('onInput', $event)"
       />
-      <base-button @click="toggleButtons" v-if="!isDeleted"
+      <base-button @click.prevent="toggleButtons" v-if="!isDeleted"
         >Удалить предмет</base-button
       >
       <div class="modal__buttons" v-if="isDeleted">
-        <base-button @click="toggleButtons" class="btn-decline"
+        <base-button @click.prevent="toggleButtons" class="btn-decline"
           >Отмена</base-button
         >
-        <base-button @click="toggleButtons" class="btn-approve"
+        <base-button
+          @click.prevent="$emit('delete', $event)"
+          class="btn-approve"
           >Подтвердить</base-button
         >
       </div>
-      <img class="modal-close" src="../../images/close.svg" />
-    </div>
+      <img
+        class="modal-close"
+        src="../../images/close.svg"
+        @click="$emit('close')"
+      />
+    </form>
   </div>
 </template>
 
@@ -38,15 +41,21 @@
 import BaseButton from './BaseButton.vue';
 
 export default {
+  emits: ['close', 'delete', 'onInput'],
+  props: ['image'],
   components: { BaseButton },
   data() {
     return {
       isDeleted: false,
+      inputValue: '',
     };
   },
   methods: {
     toggleButtons() {
       this.isDeleted = !this.isDeleted;
+    },
+    show() {
+      console.log(this.inputValue);
     },
   },
 };
@@ -63,6 +72,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  right: 0;
+  animation: slideIn 0.8s linear;
 
   &__info {
     display: flex;
@@ -78,8 +90,6 @@ export default {
 
   &__text {
     margin: 24px 20px;
-    border-bottom: 1px solid #4d4d4d;
-    padding-bottom: 24px;
     overflow: hidden;
   }
 
@@ -93,6 +103,11 @@ export default {
     position: absolute;
     top: 14px;
     right: 14px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &__input {
@@ -102,11 +117,28 @@ export default {
     border: 1px solid #4d4d4d;
     border-radius: 4px;
     padding: 11px 55px 12px 12px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   &__buttons {
     display: flex;
     gap: 10px;
+  }
+
+  &__confirm {
+    border-top: 1px solid #4d4d4d;
+    padding-top: 18px;
+  }
+
+  @keyframes slideIn {
+    0% {
+      transform: translateX(400px);
+      animation-timing-function: ease-out;
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0px);
+      animation-timing-function: ease-in;
+    }
   }
 }
 

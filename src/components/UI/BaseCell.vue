@@ -6,8 +6,8 @@
 
 <style lang="scss" scoped>
 .cell {
-  width: 105px;
-  height: 100px;
+  width: 102px;
+  height: 98px;
   border: 1px solid #4d4d4d;
   background-color: #262626;
 }

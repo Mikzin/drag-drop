@@ -1,7 +1,7 @@
 <template>
-  <div class="item" draggable="true" @click="showItem">
+  <div class="item" draggable="true">
     <img class="item__image" :src="image" />
-    <p class="item__quantity">4{{ quantity }}</p>
+    <p class="item__quantity">{{ quantity }}</p>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 <style lang="scss" scoped>
 .item {
   width: 103px;
-  height: 100px;
+  height: 96px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +23,11 @@ export default {
   border-radius: 12px;
 
   &:hover {
+    background-color: #3c3c3c;
+    border: 1px solid #4d4d4d;
+  }
+
+  &:active {
     background-color: #3c3c3c;
   }
 
@@ -34,11 +39,13 @@ export default {
   &__quantity {
     position: absolute;
     margin: 0;
-    bottom: 1px;
+    bottom: -1px;
     right: -1px;
     color: #ffffff;
     background: #262626;
-    border: 1px solid #4d4d4d;
+    border: 1.5px solid #4d4d4d;
+    border-right: none;
+    border-bottom: none;
     border-radius: 6px 0px 0px 0px;
     opacity: 0.4;
     padding: 2px 4px;
