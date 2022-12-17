@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { onMounted, ref } from 'vue';
 import BaseCell from './BaseCell.vue';
 import BaseModal from './BaseModal.vue';
 import BaseItem from './BaseItem.vue';
@@ -47,91 +48,88 @@ export default {
   components: { BaseCell, BaseModal, BaseItem },
   emits: ['close'],
 
-  data() {
-    return {
-      cells: [
-        { id: 1, isItem: false },
-        { id: 2, isItem: false },
-        { id: 3, isItem: false },
-        { id: 4, isItem: false },
-        { id: 5, isItem: false },
-        { id: 6, isItem: false },
-        { id: 7, isItem: false },
-        { id: 8, isItem: false },
-        { id: 9, isItem: false },
-        { id: 10, isItem: false },
-        { id: 11, isItem: false },
-        { id: 12, isItem: false },
-        { id: 13, isItem: false },
-        { id: 14, isItem: false },
-        { id: 15, isItem: false },
-        { id: 16, isItem: false },
-        { id: 17, isItem: false },
-        { id: 18, isItem: false },
-        { id: 19, isItem: false },
-        { id: 20, isItem: false },
-        { id: 21, isItem: false },
-        { id: 22, isItem: false },
-        { id: 23, isItem: false },
-        { id: 24, isItem: false },
-        { id: 25, isItem: false },
-      ],
-      isClosed: true,
-      imageItem: null,
-      id: null,
-      qty: null,
-      inputValue: '',
-      data: [],
-    };
-  },
-  methods: {
-    getInput(evt) {
-      this.inputValue = evt.data;
-    },
-    getImg(item) {
-      this.imageItem = item.image;
-    },
-    setQty(item) {
-      item.quantity = this.qty;
-    },
-    deleteItem() {
-      if (this.qty - this.inputValue <= 0) {
-        this.data = this.data.filter((item) => item.id !== this.id);
-        this.postData(this.data);
-        this.toggleModal();
+  setup() {
+    const cells = ref([
+      { id: 1, isItem: false },
+      { id: 2, isItem: false },
+      { id: 3, isItem: false },
+      { id: 4, isItem: false },
+      { id: 5, isItem: false },
+      { id: 6, isItem: false },
+      { id: 7, isItem: false },
+      { id: 8, isItem: false },
+      { id: 9, isItem: false },
+      { id: 10, isItem: false },
+      { id: 11, isItem: false },
+      { id: 12, isItem: false },
+      { id: 13, isItem: false },
+      { id: 14, isItem: false },
+      { id: 15, isItem: false },
+      { id: 16, isItem: false },
+      { id: 17, isItem: false },
+      { id: 18, isItem: false },
+      { id: 19, isItem: false },
+      { id: 20, isItem: false },
+      { id: 21, isItem: false },
+      { id: 22, isItem: false },
+      { id: 23, isItem: false },
+      { id: 24, isItem: false },
+      { id: 25, isItem: false },
+    ]);
+    const isClosed = ref(true);
+    const imageItem = ref(null);
+    const id = ref(null);
+    const qty = ref(null);
+    const inputValue = ref('');
+    const data = ref([]);
+    const images = ref([item1, item2, item3]);
+
+    function getInput(evt) {
+      inputValue.value = evt.data;
+    }
+    function getImg(item) {
+      imageItem.value = item.image;
+    }
+
+    function deleteItem() {
+      if (qty.value - inputValue.value <= 0) {
+        data.value = data.value.filter((item) => item.id !== id.value);
+        postData(data.value);
+        toggleModal();
       } else {
-        this.data.forEach((item) => {
-          if (item.quantity === this.qty) {
-            item.quantity = item.quantity - this.inputValue;
+        data.value.forEach((item) => {
+          if (item.quantity === qty.value) {
+            item.quantity = item.quantity - inputValue.value;
           }
         });
-        this.postData(this.data);
-        this.toggleModal();
+        postData(data.value);
+        toggleModal();
       }
-    },
-    toggleModal() {
-      this.isClosed = !this.isClosed;
-    },
-    startDrag(evt, item) {
+    }
+
+    function toggleModal() {
+      isClosed.value = !isClosed.value;
+    }
+
+    function startDrag(evt, item) {
       evt.dataTransfer.dropEffect = 'move';
       evt.dataTransfer.effectAllowed = 'move';
       evt.dataTransfer.setData('itemID', item.id);
-    },
-    onDrop(evt, list) {
-      const itemID = evt.dataTransfer.getData('itemID');
-      const item = this.data.find((item) => item.id == itemID);
-      item.id = list;
-      this.postData(this.data);
-    },
-    getId(item) {
-      this.id = item.id;
-    },
-    getQty(item) {
-      this.qty = item.quantity;
-      console.log(this.qty);
-    },
+    }
 
-    async getData() {
+    function onDrop(evt, list) {
+      const itemID = evt.dataTransfer.getData('itemID');
+      const item = data.value.find((item) => item.id == itemID);
+      item.id = list;
+      postData(data.value);
+    }
+    function getId(item) {
+      id.value = item.id;
+    }
+    function getQty(item) {
+      qty.value = item.quantity;
+    }
+    async function getData() {
       const response = await fetch(
         `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
         {
@@ -148,17 +146,14 @@ export default {
         );
         throw error;
       }
+      data.value = responseData;
 
-      this.data = responseData;
+      for (let i = 0; i < images.value.length; i++) {
+        data.value[i].image = images.value[i];
+      }
+    }
 
-      this.data[0].image = item1;
-      this.data[1].image = item2;
-      this.data[2].image = item3;
-
-      console.log(this.data);
-    },
-
-    async postData(data) {
+    async function postData(data) {
       const response = await fetch(
         `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
         {
@@ -176,11 +171,32 @@ export default {
         throw error;
       }
 
-      this.data = responseData;
-    },
-  },
-  mounted() {
-    this.getData();
+      data.value = responseData;
+    }
+
+    onMounted(() => {
+      getData();
+    });
+
+    return {
+      cells,
+      getInput,
+      getImg,
+      deleteItem,
+      toggleModal,
+      startDrag,
+      onDrop,
+      getId,
+      getQty,
+      getData,
+      postData,
+      isClosed,
+      imageItem,
+      id,
+      qty,
+      inputValue,
+      data,
+    };
   },
 };
 </script>

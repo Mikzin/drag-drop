@@ -8,23 +8,21 @@
         dolores cumque
       </p>
     </div>
-    <form class="modal__confirm">
+    <div class="modal__confirm">
       <input
         class="modal__input"
         placeholder="Введите количество"
         v-if="isDeleted"
         @input="$emit('onInput', $event)"
       />
-      <base-button @click.prevent="toggleButtons" v-if="!isDeleted"
+      <base-button @click="toggleButtons" v-if="!isDeleted"
         >Удалить предмет</base-button
       >
       <div class="modal__buttons" v-if="isDeleted">
-        <base-button @click.prevent="toggleButtons" class="btn-decline"
+        <base-button @click="toggleButtons" class="btn-decline"
           >Отмена</base-button
         >
-        <base-button
-          @click.prevent="$emit('delete', $event)"
-          class="btn-approve"
+        <base-button @click="$emit('delete', $event)" class="btn-approve"
           >Подтвердить</base-button
         >
       </div>
@@ -33,30 +31,27 @@
         src="../../images/close.svg"
         @click="$emit('close')"
       />
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 import BaseButton from './BaseButton.vue';
 
 export default {
   emits: ['close', 'delete', 'onInput'],
   props: ['image'],
   components: { BaseButton },
-  data() {
-    return {
-      isDeleted: false,
-      inputValue: '',
-    };
-  },
-  methods: {
-    toggleButtons() {
-      this.isDeleted = !this.isDeleted;
-    },
-    show() {
-      console.log(this.inputValue);
-    },
+  setup() {
+    const isDeleted = ref(false);
+    const inputValue = ref('');
+
+    function toggleButtons() {
+      isDeleted.value = !isDeleted.value;
+    }
+
+    return { isDeleted, inputValue, toggleButtons };
   },
 };
 </script>
