@@ -18,9 +18,7 @@
         v-show="item.id === cell.id"
         @click="
           toggleModal();
-          getId(item);
-          getImg(item);
-          getQty(item);
+          get(item);
         "
       ></base-item>
     </base-cell>
@@ -87,8 +85,11 @@ export default {
     function getInput(evt) {
       inputValue.value = evt.data;
     }
-    function getImg(item) {
+
+    function get(item) {
       imageItem.value = item.image;
+      id.value = item.id;
+      qty.value = item.quantity;
     }
 
     function deleteItem() {
@@ -123,12 +124,7 @@ export default {
       item.id = list;
       postData(data.value);
     }
-    function getId(item) {
-      id.value = item.id;
-    }
-    function getQty(item) {
-      qty.value = item.quantity;
-    }
+
     async function getData() {
       const response = await fetch(
         `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
@@ -181,13 +177,10 @@ export default {
     return {
       cells,
       getInput,
-      getImg,
       deleteItem,
       toggleModal,
       startDrag,
       onDrop,
-      getId,
-      getQty,
       getData,
       postData,
       isClosed,
@@ -196,6 +189,7 @@ export default {
       qty,
       inputValue,
       data,
+      get,
     };
   },
 };
