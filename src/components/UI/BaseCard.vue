@@ -7,9 +7,31 @@
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic animi
         soluta vitae sequi asperiores nisi voluptatibus inventore.
       </p>
+      <base-button class="btn-add" @click="toggleModal()">Add item</base-button>
     </div>
   </div>
+  <base-item-modal v-if="!isClosed" @close="toggleModal()"></base-item-modal>
 </template>
+
+<script>
+import { ref } from 'vue';
+import BaseButton from './BaseButton.vue';
+import BaseItemModal from './BaseItemModal.vue';
+
+export default {
+  components: { BaseButton, BaseItemModal },
+  emits: ['close'],
+  setup() {
+    const isClosed = ref(true);
+
+    function toggleModal() {
+      isClosed.value = !isClosed.value;
+    }
+
+    return { isClosed, toggleModal };
+  },
+};
+</script>
 
 <style scoped>
 .card {
@@ -40,5 +62,9 @@
 .card__text {
   margin: 12px 0 0;
   text-align: center;
+}
+
+.btn-add {
+  background-color: #01eb18c9;
 }
 </style>

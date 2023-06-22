@@ -203,7 +203,7 @@ export default {
   background-color: #262626;
   max-width: 525px;
   max-height: 500px;
-  position: relative;
+  // position: relative;
   overflow: hidden;
 
   &__item {
