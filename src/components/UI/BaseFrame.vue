@@ -1,12 +1,17 @@
 <template>
   <div class="frame">
     <p class="frame__text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, labore
-      doloremque reiciendis odit tempora corporis quisquam quos accusantium in
-      ratione incidunt animi neque quas officiis mollitia harum. Iure, modi
-      neque?
+      Приложение представляет собой инвентарь, разработанный для оптимального
+      управления предметами и айтемами. SPA обеспечивает удобный и интуитивно
+      понятный интерфейс, позволяющий легко добавлять, удалять и перетаскивать
+      предметы в своем инвентаре.
     </p>
-    <img src="../../images/close.svg" alt="close-btn" class="frame__button" />
+    <img
+      src="../../images/close.svg"
+      alt="close-btn"
+      class="frame__button"
+      title="Скрыть информацию"
+    />
   </div>
 </template>
 
@@ -16,7 +21,6 @@
   border: 1px solid #4d4d4d;
   border-radius: 12px;
   padding: 18px 68px 18px 18px;
-  position: relative;
 }
 
 .frame__button {

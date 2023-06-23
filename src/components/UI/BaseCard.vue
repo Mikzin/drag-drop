@@ -2,12 +2,9 @@
   <div class="card">
     <img src="../../images/imgblur.png" alt="card-image" class="card__image" />
     <div class="card__info">
-      <h2 class="card__title">Title</h2>
-      <p class="card__text">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic animi
-        soluta vitae sequi asperiores nisi voluptatibus inventore.
-      </p>
-      <base-button class="btn-add" @click="toggleModal()">Add item</base-button>
+      <!-- <h2 class="card__title">Title</h2> -->
+      <p class="card__text">Здесь вы можете добавить новый айтем в инвентарь</p>
+      <base-button class="btn-add" @click="toggleModal()">Добавить</base-button>
     </div>
   </div>
   <base-item-modal v-if="!isClosed" @close="toggleModal()"></base-item-modal>
@@ -42,6 +39,7 @@ export default {
   background: #262626;
   border: 1px solid #4d4d4d;
   border-radius: 12px;
+  gap: 36px;
 }
 
 .card__info {
@@ -49,6 +47,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin: 0 14px 18px;
+  gap: 12px;
 }
 
 .card__image {

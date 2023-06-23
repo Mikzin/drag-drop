@@ -170,6 +170,12 @@ export default {
       data.value = responseData;
     }
 
+    function addItem(newItem) {
+      data.value.push(newItem);
+      postData(data.value);
+      console.log('newItem');
+    }
+
     onMounted(() => {
       getData();
     });
@@ -190,6 +196,7 @@ export default {
       inputValue,
       data,
       get,
+      addItem,
     };
   },
 };
