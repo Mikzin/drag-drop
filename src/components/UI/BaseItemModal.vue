@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import BaseButton from './BaseButton.vue';
-import { addItem } from './inventory';
+import { addItem, fetchData } from './utils';
 
 import item1 from '../../images/rect1.png';
 import item2 from '../../images/rect2.png';
@@ -44,34 +44,52 @@ export default {
   components: { BaseButton },
   emits: ['close'],
   setup() {
-    const selectedColor = ref('red');
+    const selectedColor = ref('yellow');
     const quantity = ref(1);
-    const image = ref();
+    // const image = ref();
+    const images = ref([item1, item2, item3]);
+    // const grid = ref([]);
+    // const id = ref(0);
+    const data = ref([]);
 
-    function getImage() {
-      if (selectedColor.value === 'yellow') {
-        image.value = item2;
+    // function getImage() {
+    //   if (selectedColor.value === 'yellow') {
+    //     image.value = images.value[1];
+    //   }
+    //   if (selectedColor.value === 'blue') {
+    //     image.value = images.value[2];
+    //   }
+    //   if (selectedColor.value === 'green') {
+    //     image.value = images.value[0];
+    //   }
+    // }
+
+    function generateUniqueId(usedIds) {
+      let id = 1;
+      while (usedIds.includes(id)) {
+        id++;
       }
-      if (selectedColor.value === 'blue') {
-        image.value = item3;
-      }
-      if (selectedColor.value === 'green') {
-        image.value = item1;
-      }
+      return id;
     }
     ///////////////
     function addNewItem() {
       addItem({
-        id: 4,
-        image: getImage(),
+        id: data.value.length++,
+        image: images.value[1],
         quantity: quantity.value,
       });
     }
+
+    onMounted(() => {
+      fetchData(data, images);
+    });
 
     return {
       selectedColor,
       quantity,
       addNewItem,
+      data,
+      generateUniqueId,
     };
   },
 };

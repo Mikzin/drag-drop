@@ -1,5 +1,4 @@
 async function addItem(newItem) {
-  // Fetch the data from the server
   const response = await fetch(
     `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
     {
@@ -15,10 +14,8 @@ async function addItem(newItem) {
     throw error;
   }
 
-  // Update the data by adding the new item
   responseData.push(newItem);
 
-  // Post the updated data back to the server
   const updateResponse = await fetch(
     `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
     {
@@ -39,4 +36,29 @@ async function addItem(newItem) {
   return updateResponseData;
 }
 
-export { addItem };
+async function fetchData(data, images) {
+  const response = await fetch(
+    `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
+    {
+      method: 'GET',
+      body: JSON.stringify(),
+    }
+  );
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    const error = new Error(responseData.message || 'Failed to send request.');
+    throw error;
+  }
+  data.value = responseData;
+
+  for (let i = 0; i < images.value.length; i++) {
+    data.value[i].image = images.value[i];
+  }
+
+  return data;
+  // console.log(data.value[1].image, images.value[1]);
+}
+
+export { addItem, fetchData };

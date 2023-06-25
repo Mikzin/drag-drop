@@ -37,6 +37,7 @@ import { onMounted, ref } from 'vue';
 import BaseCell from './BaseCell.vue';
 import BaseModal from './BaseModal.vue';
 import BaseItem from './BaseItem.vue';
+// import { fetchData } from './utils';
 
 import item1 from '../../images/rect1.png';
 import item2 from '../../images/rect2.png';
@@ -125,7 +126,7 @@ export default {
       postData(data.value);
     }
 
-    async function getData() {
+    async function fetchData() {
       const response = await fetch(
         `https://inventory-353a7-default-rtdb.europe-west1.firebasedatabase.app/items.json`,
         {
@@ -170,14 +171,8 @@ export default {
       data.value = responseData;
     }
 
-    function addItem(newItem) {
-      data.value.push(newItem);
-      postData(data.value);
-      console.log('newItem');
-    }
-
     onMounted(() => {
-      getData();
+      fetchData();
     });
 
     return {
@@ -187,7 +182,7 @@ export default {
       toggleModal,
       startDrag,
       onDrop,
-      getData,
+      fetchData,
       postData,
       isClosed,
       imageItem,
@@ -196,7 +191,6 @@ export default {
       inputValue,
       data,
       get,
-      addItem,
     };
   },
 };
@@ -210,7 +204,6 @@ export default {
   background-color: #262626;
   max-width: 525px;
   max-height: 500px;
-  // position: relative;
   overflow: hidden;
 
   &__item {
