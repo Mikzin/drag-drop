@@ -204,7 +204,8 @@ export default {
   max-width: 525px;
   max-height: 500px;
   overflow: hidden;
-  z-index: -1;
+  position: relative;
+  z-index: 0;
 
   &__item {
     display: flex;

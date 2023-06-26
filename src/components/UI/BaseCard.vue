@@ -2,7 +2,6 @@
   <div class="card">
     <img src="../../images/imgblur.png" alt="card-image" class="card__image" />
     <div class="card__info">
-      <!-- <h2 class="card__title">Title</h2> -->
       <p class="card__text">Здесь вы можете добавить новый айтем в инвентарь</p>
       <base-button class="btn-add" @click="toggleModal()">Добавить</base-button>
     </div>

@@ -1,33 +1,38 @@
 <template>
-  <div class="frame">
+  <div class="frame" v-if="isClosed">
     <p class="frame__text">
       Приложение представляет собой инвентарь, разработанный для оптимального
       управления предметами и айтемами. SPA обеспечивает удобный и интуитивно
       понятный интерфейс, позволяющий легко добавлять, удалять и перетаскивать
       предметы в своем инвентаре.
     </p>
-    <img
-      src="../../images/close.svg"
-      alt="close-btn"
+    <button
+      type="button"
       class="frame__button"
       title="Скрыть информацию"
-      @click="close"
-    />
+      @click="toggleModal"
+    >
+      <img
+        src="../../images/close.svg"
+        alt="close-btn"
+        class="frame__button-img"
+      />
+    </button>
   </div>
 </template>
 
 <script>
-////////////////
-////////////////
-////////////////
+import { ref } from 'vue';
+
 export default {
-  emits: ['close'],
-  setup(_, { emit }) {
-    function close() {
-      emit('close');
+  setup() {
+    const isClosed = ref(true);
+
+    function toggleModal() {
+      isClosed.value = !isClosed.value;
     }
 
-    return { close };
+    return { isClosed, toggleModal };
   },
 };
 </script>
@@ -39,7 +44,6 @@ export default {
   border-radius: 12px;
   padding: 18px 68px 18px 18px;
   position: relative;
-  z-index: -1;
 }
 
 .frame__button {
@@ -47,13 +51,15 @@ export default {
   top: 8px;
   right: 8px;
   cursor: pointer;
+  border: none;
+  background: none;
 }
 
 .frame__text {
   margin: 0;
 }
 
-.frame__button:hover {
+.frame__button-img:hover {
   opacity: 0.8;
 }
 </style>

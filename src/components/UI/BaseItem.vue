@@ -21,6 +21,7 @@ export default {
   justify-content: center;
   position: relative;
   border-radius: 12px;
+  cursor: pointer;
 
   &:hover {
     background-color: #3c3c3c;

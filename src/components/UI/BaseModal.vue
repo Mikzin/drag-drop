@@ -63,7 +63,6 @@ export default {
   background-color: rgba(38, 38, 38, 0.5);
   border: 1px solid #4d4d4d;
   backdrop-filter: blur(8px);
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

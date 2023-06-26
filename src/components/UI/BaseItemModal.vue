@@ -49,7 +49,7 @@ export default {
   components: { BaseButton },
   emits: ['close'],
   setup(_, { emit }) {
-    const selectedColor = ref('yellow');
+    const selectedColor = ref('');
     const quantity = ref(1);
     const images = ref([item1, item2, item3]);
     const data = ref([]);
@@ -116,6 +116,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .modal__content {
