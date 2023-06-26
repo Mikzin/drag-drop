@@ -11,9 +11,26 @@
       alt="close-btn"
       class="frame__button"
       title="Скрыть информацию"
+      @click="close"
     />
   </div>
 </template>
+
+<script>
+////////////////
+////////////////
+////////////////
+export default {
+  emits: ['close'],
+  setup(_, { emit }) {
+    function close() {
+      emit('close');
+    }
+
+    return { close };
+  },
+};
+</script>
 
 <style scoped>
 .frame {
@@ -21,6 +38,8 @@
   border: 1px solid #4d4d4d;
   border-radius: 12px;
   padding: 18px 68px 18px 18px;
+  position: relative;
+  z-index: -1;
 }
 
 .frame__button {

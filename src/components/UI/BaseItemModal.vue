@@ -3,7 +3,7 @@
     <div class="modal__content">
       <div class="modal__header">
         <h2 class="modal__title">Добавление айтема</h2>
-        <span class="modal__close" @click="$emit('close')">&times;</span>
+        <span class="modal__close" @click="close">&times;</span>
       </div>
       <div class="modal__body">
         <p class="modal__text">
@@ -12,7 +12,12 @@
         </p>
         <div class="modal__form">
           <label for="item-color" class="modal__label">Цвет:</label>
-          <select id="item-color" v-model="selectedColor" class="modal__input">
+          <select
+            id="item-color"
+            v-model="selectedColor"
+            @change="changeColor"
+            class="modal__input"
+          >
             <option value="yellow">Желтый</option>
             <option value="blue">Синий</option>
             <option value="green">Зеленый</option>
@@ -43,41 +48,45 @@ import item3 from '../../images/rect3.png';
 export default {
   components: { BaseButton },
   emits: ['close'],
-  setup() {
+  setup(_, { emit }) {
     const selectedColor = ref('yellow');
     const quantity = ref(1);
-    // const image = ref();
     const images = ref([item1, item2, item3]);
-    // const grid = ref([]);
-    // const id = ref(0);
     const data = ref([]);
+    const image = ref();
 
-    // function getImage() {
-    //   if (selectedColor.value === 'yellow') {
-    //     image.value = images.value[1];
-    //   }
-    //   if (selectedColor.value === 'blue') {
-    //     image.value = images.value[2];
-    //   }
-    //   if (selectedColor.value === 'green') {
-    //     image.value = images.value[0];
-    //   }
-    // }
-
-    function generateUniqueId(usedIds) {
+    function generateID() {
       let id = 1;
-      while (usedIds.includes(id)) {
+      while (data.value.some((item) => item.id === id)) {
         id++;
       }
       return id;
     }
-    ///////////////
+
+    function changeColor() {
+      if (selectedColor.value === 'blue') {
+        image.value = images.value[2];
+      } else if (selectedColor.value === 'green') {
+        image.value = images.value[0];
+      } else {
+        image.value = images.value[1];
+      }
+    }
+
     function addNewItem() {
-      addItem({
-        id: data.value.length++,
-        image: images.value[1],
+      const id = generateID();
+      const newItem = {
+        id: id,
+        image: image.value,
         quantity: quantity.value,
-      });
+      };
+      addItem(newItem);
+      data.value.push(newItem);
+      close();
+    }
+
+    function close() {
+      emit('close');
     }
 
     onMounted(() => {
@@ -89,7 +98,8 @@ export default {
       quantity,
       addNewItem,
       data,
-      generateUniqueId,
+      changeColor,
+      close,
     };
   },
 };

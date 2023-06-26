@@ -37,7 +37,6 @@ import { onMounted, ref } from 'vue';
 import BaseCell from './BaseCell.vue';
 import BaseModal from './BaseModal.vue';
 import BaseItem from './BaseItem.vue';
-// import { fetchData } from './utils';
 
 import item1 from '../../images/rect1.png';
 import item2 from '../../images/rect2.png';
@@ -205,6 +204,7 @@ export default {
   max-width: 525px;
   max-height: 500px;
   overflow: hidden;
+  z-index: -1;
 
   &__item {
     display: flex;

@@ -58,7 +58,6 @@ async function fetchData(data, images) {
   }
 
   return data;
-  // console.log(data.value[1].image, images.value[1]);
 }
 
 export { addItem, fetchData };
