@@ -7,7 +7,7 @@
       </div>
       <div class="modal__body">
         <p class="modal__text">
-          Для того, чтобы добавить новый айтем в инвентарь, выберите его тип и
+          Для того, чтобы добавить новый айтем в инвентарь, выберите его цвет и
           количество.
         </p>
         <div class="modal__form">
@@ -18,16 +18,21 @@
             @change="changeColor"
             class="modal__input"
           >
+            <option value="" disabled selected></option>
             <option value="yellow">Желтый</option>
             <option value="blue">Синий</option>
             <option value="green">Зеленый</option>
           </select>
+          <p class="color-error" v-if="!selectedColor && isAddingItem">
+            Нужно выбрать цвет!
+          </p>
           <label for="item-quantity" class="modal__label">Количество:</label>
           <input
             type="number"
             id="item-quantity"
             v-model.number="quantity"
             class="modal__input"
+            max="10"
           />
         </div>
       </div>
@@ -54,6 +59,7 @@ export default {
     const images = ref([item1, item2, item3]);
     const data = ref([]);
     const image = ref();
+    const isAddingItem = ref(false);
 
     function generateID() {
       let id = 1;
@@ -74,6 +80,11 @@ export default {
     }
 
     function addNewItem() {
+      isAddingItem.value = true;
+      if (selectedColor.value === '') {
+        return;
+      }
+
       const id = generateID();
       const newItem = {
         id: id,
@@ -100,6 +111,7 @@ export default {
       data,
       changeColor,
       close,
+      isAddingItem,
     };
   },
 };
@@ -161,6 +173,7 @@ export default {
   margin: 0;
   color: #fff;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .btn-add {
@@ -186,5 +199,10 @@ export default {
   color: white;
   text-align: center;
   padding: 6px;
+}
+
+.color-error {
+  margin: 5px;
+  color: red;
 }
 </style>

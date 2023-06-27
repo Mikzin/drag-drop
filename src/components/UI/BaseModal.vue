@@ -2,10 +2,9 @@
   <div class="modal">
     <img :src="image" alt="inventory-item" class="modal__image" />
     <div class="modal__info">
-      <h2 class="modal__title">Title of inventory</h2>
+      <h2 class="modal__title">Удалить предмет</h2>
       <p class="modal__text">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-        dolores cumque
+        Чтобы удалить предмет, введите количество и нажмите "Подтвердить"
       </p>
     </div>
     <div class="modal__confirm">
@@ -14,6 +13,7 @@
         placeholder="Введите количество"
         v-if="isDeleted"
         @input="$emit('onInput', $event)"
+        type="number"
       />
       <base-button @click="toggleButtons" v-if="!isDeleted"
         >Удалить предмет</base-button

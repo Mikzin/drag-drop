@@ -93,19 +93,16 @@ export default {
     }
 
     function deleteItem() {
-      if (qty.value - inputValue.value <= 0) {
+      const selectedItem = data.value.find((item) => item.id === id.value);
+
+      if (selectedItem.quantity <= inputValue.value) {
         data.value = data.value.filter((item) => item.id !== id.value);
-        postData(data.value);
-        toggleModal();
       } else {
-        data.value.forEach((item) => {
-          if (item.quantity === qty.value) {
-            item.quantity = item.quantity - inputValue.value;
-          }
-        });
-        postData(data.value);
-        toggleModal();
+        selectedItem.quantity -= inputValue.value;
       }
+
+      postData(data.value);
+      toggleModal();
     }
 
     function toggleModal() {
